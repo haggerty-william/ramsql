@@ -357,7 +357,7 @@ func whereExecutor2(e *Engine, decl []*parser.Decl, fromTableName string) (Predi
 	}
 
 	switch cond.Decl[0].Token {
-	case parser.IsToken, parser.InToken, parser.EqualityToken, parser.LeftDipleToken, parser.RightDipleToken:
+	case parser.IsToken, parser.InToken, parser.EqualityToken, parser.LeftDipleToken, parser.RightDipleToken, parser.LikeToken:
 		break
 	default:
 		fromTableName = cond.Decl[0].Lexeme
@@ -438,7 +438,7 @@ func whereExecutor(whereDecl *parser.Decl, fromTableName string) ([]Predicate, e
 		}
 
 		switch cond.Decl[0].Token {
-		case parser.EqualityToken, parser.LeftDipleToken, parser.RightDipleToken:
+		case parser.EqualityToken, parser.LeftDipleToken, parser.RightDipleToken,parser.LikeToken:
 			log.Debug("whereExecutor: it's = < >\n")
 			break
 		case parser.InToken:

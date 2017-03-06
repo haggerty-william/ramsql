@@ -544,6 +544,7 @@ func (p *parser) parseCondition() (*Decl, error) {
 			if err == nil && t.Lexeme == "1" {
 				p.consumeToken(EqualityToken)
 				p.consumeToken(NumberToken)
+				p.consumeToken(LikeToken)
 			}
 		}
 		return attributeDecl, nil
@@ -556,7 +557,7 @@ func (p *parser) parseCondition() (*Decl, error) {
 	}
 
 	switch p.cur().Token {
-	case EqualityToken, LeftDipleToken, RightDipleToken:
+	case EqualityToken, LeftDipleToken, RightDipleToken,LikeToken:
 		decl, err := p.consumeToken(p.cur().Token)
 		if err != nil {
 			return nil, err

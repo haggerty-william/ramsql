@@ -43,6 +43,7 @@ const (
 
 	FromToken
 	WhereToken
+	LikeToken
 	TableToken
 	IntoToken
 	ValuesToken
@@ -136,6 +137,7 @@ func (l *lexer) lex(instruction []byte) ([]Token, error) {
 	matchers = append(matchers, l.MatchTableToken)
 	matchers = append(matchers, l.MatchFromToken)
 	matchers = append(matchers, l.MatchWhereToken)
+	matchers = append(matchers, l.MatchLikeToken)
 	matchers = append(matchers, l.MatchIntoToken)
 	matchers = append(matchers, l.MatchValuesToken)
 	matchers = append(matchers, l.MatchJoinToken)
@@ -253,6 +255,10 @@ func (l *lexer) MatchOrToken() bool {
 
 func (l *lexer) MatchInToken() bool {
 	return l.Match([]byte("in"), InToken)
+}
+
+func (l *lexer) MatchLikeToken() bool {
+	return l.Match([]byte("like"), LikeToken)
 }
 
 func (l *lexer) MatchReturningToken() bool {

@@ -6,6 +6,7 @@ import (
 
 	"github.com/proullon/ramsql/engine/log"
 	"github.com/proullon/ramsql/engine/parser"
+	"strings"
 )
 
 // Operator compares 2 values and return a boolean
@@ -20,6 +21,8 @@ func NewOperator(token int, lexeme string) (Operator, error) {
 		return lessThanOperator, nil
 	case parser.RightDipleToken:
 		return greaterThanOperator, nil
+	case parser.LikeToken:
+		return likeOperator, nil
 	}
 
 	return nil, fmt.Errorf("Operator '%s' does not exist", lexeme)
@@ -41,6 +44,23 @@ func convToFloat(t interface{}) (float64, error) {
 		return strconv.ParseFloat(string(t), 64)
 	}
 
+}
+
+func likeOperator(leftValue Value, rightValue Value) bool {
+	log.Debug("likeOperator")
+	var left, right string
+
+	var rvalue interface{}
+	if rightValue.v != nil {
+		rvalue = rightValue.v
+	} else {
+		rvalue = rightValue.lexeme
+	}
+
+
+	left = leftValue.v.(string)
+	right = rvalue.(string)
+	return strings.Contains(left,right)
 }
 
 func greaterThanOperator(leftValue Value, rightValue Value) bool {
